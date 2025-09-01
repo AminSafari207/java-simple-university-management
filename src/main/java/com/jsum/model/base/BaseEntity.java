@@ -1,4 +1,4 @@
-package com.jsum.model;
+package com.jsum.model.base;
 
 import jakarta.persistence.*;
 
