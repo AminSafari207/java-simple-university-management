@@ -1,11 +1,9 @@
 package com.jsum.model.base;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
+import jakarta.persistence.*;
 
 @Entity
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Person<T extends Person<T>> extends BaseEntity<Long> {
     private String name;

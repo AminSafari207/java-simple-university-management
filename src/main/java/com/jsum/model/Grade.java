@@ -4,13 +4,18 @@ import com.jsum.model.enums.GradeType;
 import jakarta.persistence.*;
 
 @Entity
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"student_id","course_code","semester"}))
 public class Grade {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(name="student_id")
     private Long studentId;
+
+    @Column(name="course_id")
     private Long courseId;
+
     private String semester;
 
     @Enumerated(EnumType.STRING)
