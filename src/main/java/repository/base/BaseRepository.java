@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Optional;
 
 public abstract class BaseRepository<T, ID> extends BaseEntity<ID> implements CrudRepository<T, ID> {
-    private final EntityManager em;
-    private final Class<T> classRef;
+    protected final EntityManager em;
+    protected final Class<T> classRef;
 
     public BaseRepository(EntityManager em, Class<T> classRef) {
         this.em = em;
