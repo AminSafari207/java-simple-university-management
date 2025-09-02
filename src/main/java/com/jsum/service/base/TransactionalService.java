@@ -22,6 +22,9 @@ public class TransactionalService {
             tx.begin();
             consumer.accept(em);
             tx.commit();
+        } catch (RuntimeException e) {
+            if (tx.isActive()) tx.rollback();
+            throw e;
         } catch (Exception e) {
             if (tx.isActive()) tx.rollback();
             throw new RuntimeException("Transaction failed.", e);
@@ -38,7 +41,11 @@ public class TransactionalService {
             tx.begin();
             R res = function.apply(em);
             tx.commit();
+
             return res;
+        } catch (RuntimeException e) {
+            if (tx.isActive()) tx.rollback();
+            throw e;
         } catch (Exception e) {
             if (tx.isActive()) tx.rollback();
             throw new RuntimeException("Transaction failed.", e);

@@ -2,6 +2,7 @@ package com.jsum.service;
 
 import com.jsum.enums.GradeType;
 import com.jsum.exception.DuplicateCourseNameException;
+import com.jsum.exception.DuplicateEmailException;
 import com.jsum.model.Course;
 import com.jsum.model.Grade;
 import com.jsum.model.ProfessorEnrollment;
@@ -13,6 +14,7 @@ import jakarta.persistence.EntityManagerFactory;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class QueryTestService extends TransactionalService {
@@ -23,6 +25,12 @@ public class QueryTestService extends TransactionalService {
     public Long addStudent(String name, String email, String major) {
         return executeTransaction(em -> {
             StudentRepositoryImpl studentRepository = new StudentRepositoryImpl(em);
+
+            Optional<Student> existingStudent = studentRepository.findByEmail(email);
+
+            if (existingStudent.isPresent()) {
+                throw new DuplicateEmailException("Student email already exists: " + email);
+            }
 
             Student student = new Student()
                     .name(name)
@@ -39,6 +47,13 @@ public class QueryTestService extends TransactionalService {
         return executeTransaction(em -> {
             ProfessorRepositoryImpl professorRepository = new ProfessorRepositoryImpl(em);
 
+            List<Professor> all = professorRepository.findAll();
+            boolean duplication = all.stream().anyMatch(p -> email != null && email.equalsIgnoreCase(p.getEmail()));
+
+            if (duplication) {
+                throw new DuplicateEmailException("Professor email already exists: " + email);
+            }
+
             Professor professor = new Professor()
                     .name(name)
                     .email(email)
@@ -47,6 +62,22 @@ public class QueryTestService extends TransactionalService {
             professor = professorRepository.save(professor);
 
             return professor.getId();
+        });
+    }
+
+    public Long addCourse(String name, int credits) {
+        return executeTransaction(entityManager -> {
+            CourseRepositoryImpl courseRepository = new CourseRepositoryImpl(entityManager);
+
+            Course existingCourse = courseRepository.findByName(name);
+
+            if (existingCourse != null) {
+                throw new DuplicateCourseNameException("Course name already exists: " + name);
+            }
+
+            Course course = new Course().name(name).credits(credits);
+            course = courseRepository.save(course);
+            return course.getId();
         });
     }
 

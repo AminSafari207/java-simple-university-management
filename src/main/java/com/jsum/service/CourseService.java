@@ -29,8 +29,9 @@ public class CourseService extends TransactionalService {
         return executeTransaction(entityManager -> {
             CourseRepositoryImpl courseRepository = new CourseRepositoryImpl(entityManager);
 
-            Course existing = courseRepository.findByName(name);
-            if (existing != null) {
+            Course existingCourse = courseRepository.findByName(name);
+
+            if (existingCourse != null) {
                 throw new DuplicateCourseNameException("Course name already exists: " + name);
             }
 

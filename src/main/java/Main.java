@@ -11,6 +11,7 @@ public class Main {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("postgresql");
 
         StudentService studentService = new StudentService(emf);
+        CourseService courseService = new CourseService(emf);
         GradeService gradeService = new GradeService(emf);
         QueryTestService queryTestService = new QueryTestService(emf);
         StudentEnrollmentService studentEnrollmentService = new StudentEnrollmentService(emf);
@@ -23,10 +24,10 @@ public class Main {
         Long p1 = queryTestService.addProfessor("Dr. Ada", "ada@uni.test", 120_000.0);
         Long p2 = queryTestService.addProfessor("Dr. Turing", "turing@uni.test", 130_000.0);
 
-        Long c1 = queryTestService.addCourse("Algorithms", 4);
-        Long c2 = queryTestService.addCourse("Databases", 3);
-        Long c3 = queryTestService.addCourse("Networks", 3);
-        Long c4 = queryTestService.addCourse("Operating Systems", 4);
+        Long c1 = courseService.addCourse("Algorithms", 4);
+        Long c2 = courseService.addCourse("Databases", 3);
+        Long c3 = courseService.addCourse("Networks", 3);
+        Long c4 = courseService.addCourse("Operating Systems", 4);
 
         studentEnrollmentService.enroll(s1, c1, "Fall 2025");
         studentEnrollmentService.enroll(s1, c2, "Fall 2025");

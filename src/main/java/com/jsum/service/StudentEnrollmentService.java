@@ -9,6 +9,7 @@ import com.jsum.repository.impl.StudentEnrollmentRepositoryImpl;
 import com.jsum.repository.impl.StudentRepositoryImpl;
 import com.jsum.service.base.TransactionalService;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
 import java.util.List;
@@ -25,8 +26,12 @@ public class StudentEnrollmentService extends TransactionalService {
             CourseRepositoryImpl courseRepository = new CourseRepositoryImpl(em);
             StudentEnrollmentRepositoryImpl studentEnrollmentRepository = new StudentEnrollmentRepositoryImpl(em);
 
-            Student student = studentRepository.findById(studentId).orElseThrow();
-            Course course = courseRepository.findById(courseId).orElseThrow();
+            Student student = studentRepository.findById(studentId).orElseThrow(
+                    () -> new EntityNotFoundException("Student not found: " + studentId)
+            );
+            Course course = courseRepository.findById(courseId).orElseThrow(
+                    () -> new EntityNotFoundException("Course not found: " + courseId)
+            );
 
             if (studentEnrollmentRepository.exists(studentId, courseId, semester)) {
                 throw new DuplicateEnrollmentException("Duplicate student enrollment.");
