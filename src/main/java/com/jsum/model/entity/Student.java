@@ -30,4 +30,11 @@ public class Student extends Person<Student> {
         this.enrolledCourses = enrolledCourses;
         return this;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() +
+                "\nMajor: " + major +
+                "\nEnrolled Course: " + enrolledCourses.forEach(c -> System.out.print(c.getId() + ", "));
+    }
 }
