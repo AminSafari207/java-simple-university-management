@@ -1,6 +1,7 @@
 package com.jsum.service;
 
 import com.jsum.enums.GradeType;
+import com.jsum.exception.DuplicateCourseNameException;
 import com.jsum.model.Course;
 import com.jsum.model.Grade;
 import com.jsum.model.ProfessorEnrollment;
@@ -46,20 +47,6 @@ public class QueryTestService extends TransactionalService {
             professor = professorRepository.save(professor);
 
             return professor.getId();
-        });
-    }
-
-    public Long addCourse(String name, int credits) {
-        return executeTransaction(em -> {
-            CourseRepositoryImpl courseRepository = new CourseRepositoryImpl(em);
-
-            Course course = new Course()
-                    .name(name)
-                    .credits(credits);
-
-            course = courseRepository.save(course);
-
-            return course.getId();
         });
     }
 
