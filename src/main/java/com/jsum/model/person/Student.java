@@ -1,9 +1,9 @@
-package com.jsum.model.entity;
+package com.jsum.model.person;
 
 import com.jsum.model.base.Person;
+import com.jsum.model.course.Course;
 import jakarta.persistence.Entity;
 
-import java.beans.Transient;
 import java.util.ArrayList;
 import java.util.List;
 

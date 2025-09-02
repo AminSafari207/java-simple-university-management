@@ -1,7 +1,9 @@
-package com.jsum.model.entity;
+package com.jsum.model.person;
 
 import com.jsum.model.base.Person;
+import jakarta.persistence.Entity;
 
+@Entity
 public class Professor extends Person<Professor> {
     private Double salary;
 
