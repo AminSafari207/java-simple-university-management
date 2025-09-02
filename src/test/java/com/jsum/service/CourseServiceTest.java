@@ -36,7 +36,10 @@ public class CourseServiceTest {
         Long e = courseService.addCourse("E", 3);
         Long f = courseService.addCourse("F", 3);
 
-        assertThrows(DuplicateCourseNameException.class, () -> courseService.addCourse("A", 3));
+        assertThrows(
+                DuplicateCourseNameException.class,
+                () -> courseService.addCourse("A", 3)
+        );
 
         courseService.assignCoursesToProfessor(pid, List.of(a, b, c, d, e));
 
