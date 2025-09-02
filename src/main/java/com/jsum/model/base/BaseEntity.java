@@ -5,8 +5,7 @@ import jakarta.persistence.*;
 @MappedSuperclass
 public abstract class BaseEntity<ID> {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "BaseEntityGenerator")
-    @SequenceGenerator(name = "BaseEntityGenerator", sequenceName = "base-seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private ID id;
 
     public ID getId() {
