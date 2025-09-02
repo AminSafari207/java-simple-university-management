@@ -12,7 +12,7 @@ public class ProfessorEnrollmentRepositoryImpl extends BaseRepository<ProfessorE
     }
 
     public long countCoursesForProfessor(Long profId) {
-        return em.createQuery("select count(t) from " + classRef.getSimpleName() + " t where t.professorId=:pid", Long.class)
+        return em.createQuery("select count(t) from com.jsum.model.ProfessorEnrollment t where t.professorId=:pid", Long.class)
                 .setParameter("pid", profId)
                 .getSingleResult();
     }
@@ -28,5 +28,18 @@ public class ProfessorEnrollmentRepositoryImpl extends BaseRepository<ProfessorE
                 .setParameter("pid", profId)
                 .getResultList();
     }
+
+    public List<Long> professorIdsForCourse(Long courseId) {
+        return em.createQuery("select t.professorId from com.jsum.model.ProfessorEnrollment t where t.courseId=:cid", Long.class)
+                .setParameter("cid", courseId)
+                .getResultList();
+    }
+
+    public List<Long> courseIdsForProfessor(Long professorId) {
+        return em.createQuery("select t.courseId from com.jsum.model.ProfessorEnrollment t where t.professorId=:pid", Long.class)
+                .setParameter("pid", professorId)
+                .getResultList();
+    }
+
 
 }
