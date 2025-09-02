@@ -6,8 +6,8 @@ import repository.base.BaseRepository;
 
 import java.util.List;
 
-public class ProfessorRepository extends BaseRepository<Professor, Long> {
-    public ProfessorRepository(EntityManager em) {
+public class ProfessorRepositoryImpl extends BaseRepository<Professor, Long> {
+    public ProfessorRepositoryImpl(EntityManager em) {
         super(em, Professor.class);
     }
 

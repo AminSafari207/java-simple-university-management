@@ -7,9 +7,9 @@ import repository.base.BaseRepository;
 import java.util.List;
 import java.util.Optional;
 
-public class StudentRepository extends BaseRepository<Student, Long> {
+public class StudentRepositoryImpl extends BaseRepository<Student, Long> {
 
-    public StudentRepository(EntityManager em) {
+    public StudentRepositoryImpl(EntityManager em) {
         super(em, Student.class);
     }
 
