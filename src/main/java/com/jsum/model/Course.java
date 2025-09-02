@@ -9,18 +9,11 @@ import java.util.List;
 
 @Entity
 public class Course extends BaseEntity<Long> {
-    @Column(name="course_id", unique=true)
-    private Long courseId;
-
     private String name;
     private int credits;
 
     @Transient
     private List<Professor> professors = new ArrayList<>();
-
-    public Long getCourseId() {
-        return courseId;
-    }
 
     public String getName() {
         return name;
@@ -32,11 +25,6 @@ public class Course extends BaseEntity<Long> {
 
     public List<Professor> getProfessors() {
         return professors;
-    }
-
-    public Course courseId(Long id) {
-        this.courseId = id;
-        return this;
     }
 
     public Course name(String name) {
@@ -57,7 +45,7 @@ public class Course extends BaseEntity<Long> {
     @Override
     public String toString() {
         return super.toString() +
-                "\nCourse ID: " + id +
+                "\nCourse ID: " + super.getId() +
                 "\nName: " + name +
                 "\nCredits: " + credits +
                 "\nProfessors: " + professors.stream().map(c -> (c.getName() + ", ")).toList();

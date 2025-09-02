@@ -35,6 +35,6 @@ public class Student extends Person<Student> {
     public String toString() {
         return super.toString() +
                 "\nMajor: " + major +
-                "\nEnrolled Course: " + enrolledCourses.stream().map(c -> (c.getCourseId() + ", ")).toList();
+                "\nEnrolled Course: " + enrolledCourses.stream().map(c -> (c.getId() + ", ")).toList();
     }
 }

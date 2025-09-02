@@ -1,15 +1,12 @@
 package com.jsum.model;
 
+import com.jsum.model.base.BaseEntity;
 import com.jsum.model.enums.GradeType;
 import jakarta.persistence.*;
 
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {"student_id","course_id","semester"}))
-public class Grade {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
+public class Grade extends BaseEntity<Long> {
     @Column(name="student_id")
     private Long studentId;
 
@@ -23,10 +20,6 @@ public class Grade {
 
     private Double numericValue;
     private String letterValue;
-
-    public Long getId() {
-        return id;
-    }
 
     public Long getStudentId() {
         return studentId;
@@ -50,11 +43,6 @@ public class Grade {
 
     public String getLetterValue() {
         return letterValue;
-    }
-
-    public Grade setId(Long id) {
-        this.id = id;
-        return this;
     }
 
     public Grade studentId(Long studentId) {
@@ -90,7 +78,7 @@ public class Grade {
     @Override
     public String toString() {
         return super.toString() +
-                "\nGrade ID: " + id +
+                "\nGrade ID: " + super.getId() +
                 "\nStudent ID: " + studentId +
                 "\nCourse ID: " + courseId +
                 "\nSemester: " + semester +
