@@ -1,4 +1,4 @@
-package repository;
+package com.jsum.repository;
 
 import java.util.List;
 import java.util.Optional;

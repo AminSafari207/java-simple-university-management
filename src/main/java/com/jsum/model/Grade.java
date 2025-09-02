@@ -1,7 +1,7 @@
 package com.jsum.model;
 
 import com.jsum.model.base.BaseEntity;
-import com.jsum.model.enums.GradeType;
+import com.jsum.enums.GradeType;
 import jakarta.persistence.*;
 
 @Entity

@@ -1,8 +1,8 @@
-package repository.impl;
+package com.jsum.repository.impl;
 
 import com.jsum.model.person.Student;
 import jakarta.persistence.EntityManager;
-import repository.base.BaseRepository;
+import com.jsum.repository.base.BaseRepository;
 
 import java.util.List;
 import java.util.Optional;

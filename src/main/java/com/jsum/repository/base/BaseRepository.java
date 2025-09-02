@@ -1,9 +1,9 @@
-package repository.base;
+package com.jsum.repository.base;
 
 import com.jsum.model.base.BaseEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
-import repository.CrudRepository;
+import com.jsum.repository.CrudRepository;
 
 import java.util.List;
 import java.util.Optional;
