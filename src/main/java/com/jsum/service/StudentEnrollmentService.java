@@ -1,5 +1,6 @@
 package com.jsum.service;
 
+import com.jsum.exception.DuplicateEnrollmentException;
 import com.jsum.model.Course;
 import com.jsum.model.StudentEnrollment;
 import com.jsum.model.person.Student;
@@ -28,7 +29,7 @@ public class StudentEnrollmentService extends TransactionalService {
             Course course = courseRepository.findById(courseId).orElseThrow();
 
             if (studentEnrollmentRepository.exists(studentId, courseId, semester)) {
-                throw new RuntimeException("Duplicate student enrollment.");
+                throw new DuplicateEnrollmentException("Duplicate student enrollment.");
             }
 
             StudentEnrollment enrollment = new StudentEnrollment();

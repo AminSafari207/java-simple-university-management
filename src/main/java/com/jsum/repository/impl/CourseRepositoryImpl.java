@@ -30,4 +30,12 @@ public class CourseRepositoryImpl extends BaseRepository<Course, Long> {
                 .setParameter("pid", professorId)
                 .getResultList();
     }
+
+    public Course findByName(String name) {
+        List<Course> items = em.createQuery("select c from Course c where lower(c.name)=:n", Course.class)
+                .setParameter("n", name == null ? null : name.toLowerCase())
+                .getResultList();
+
+        return items.isEmpty() ? null : items.get(0);
+    }
 }

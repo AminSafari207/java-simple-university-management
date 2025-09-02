@@ -1,6 +1,8 @@
 package com.jsum.service;
 
 import com.jsum.enums.GradeType;
+import com.jsum.exception.EnrollmentNotFoundException;
+import com.jsum.exception.InvalidGradeException;
 import com.jsum.model.Course;
 import com.jsum.model.Grade;
 import com.jsum.repository.impl.CourseRepositoryImpl;
@@ -30,6 +32,10 @@ public class GradeService extends TransactionalService {
 
     public Grade saveNumeric(Long studentId, Long courseId, String semester, double value) {
         return executeTransaction(em -> {
+            if (value < 0.0 || value > 20.0) {
+                throw new InvalidGradeException("Numeric grade is out of range: " + value);
+            }
+
             GradeRepositoryImpl gradeRepository = new GradeRepositoryImpl(em);
             CourseRepositoryImpl courseRepository = new CourseRepositoryImpl(em);
             StudentEnrollmentRepositoryImpl studentEnrollmentRepository = new StudentEnrollmentRepositoryImpl(em);
@@ -39,7 +45,7 @@ public class GradeService extends TransactionalService {
             });
 
             if (!studentEnrollmentRepository.exists(studentId, courseId, semester)) {
-                throw new RuntimeException("Student not enrolled in this course/semester");
+                throw new EnrollmentNotFoundException("Student not enrolled in this course/semester");
             }
 
             Course course = courseRepository.findById(courseId).orElseThrow();
@@ -65,7 +71,7 @@ public class GradeService extends TransactionalService {
             });
 
             if (!studentEnrollmentRepository.exists(studentId, courseId, semester)) {
-                throw new RuntimeException("Student not enrolled in this course/semester");
+                throw new EnrollmentNotFoundException("Student not enrolled in this course/semester");
             }
 
             Grade grade = new Grade()
