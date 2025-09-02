@@ -1,4 +1,4 @@
-package com.jsum.model.course;
+package com.jsum.model;
 
 import com.jsum.model.person.Professor;
 import jakarta.persistence.*;
@@ -52,5 +52,14 @@ public class Course {
     public Course professors(List<Professor> professors) {
         this.professors = professors;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() +
+                "\nCourse ID: " + courseId +
+                "\nName: " + name +
+                "\nCredits: " + credits +
+                "\nProfessors: " + professors.stream().map(c -> (c.getName() + ", ")).toList();
     }
 }
