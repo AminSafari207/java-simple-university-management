@@ -12,14 +12,21 @@ public class StudentEnrollmentRepositoryImpl extends BaseRepository<StudentEnrol
         super(em, StudentEnrollment.class);
     }
 
-    public Optional<StudentEnrollment> findUnique(Long studentId, Long courseId, String semester) {
-        return em.createQuery("select e from " + classRef.getSimpleName() +
-                        " e where e.studentId=:sid and e.courseId=:cid and e.semester=:sem", classRef)
+    public boolean exists(Long studentId, Long courseId, String semester) {
+        Long count = em.createQuery(" select count(e) from com.jsum.model.StudentEnrollment e where e.studentId=:sid and e.courseId=:cid and e.semester=:sem", Long.class)
                 .setParameter("sid", studentId)
                 .setParameter("cid", courseId)
                 .setParameter("sem", semester)
-                .getResultStream()
-                .findFirst();
+                .getSingleResult();
+        return count > 0;
+    }
+
+    public Optional<StudentEnrollment> findUnique(Long studentId, Long courseId, String semester) {
+        return em.createQuery("select e from com.jsum.model.StudentEnrollment e where e.studentId=:sid and e.courseId=:cid and e.semester=:sem", classRef)
+                .setParameter("sid", studentId)
+                .setParameter("cid", courseId)
+                .setParameter("sem", semester)
+                .getResultStream().findFirst();
     }
 
     public List<StudentEnrollment> findByStudent(Long studentId) {
@@ -29,7 +36,7 @@ public class StudentEnrollmentRepositoryImpl extends BaseRepository<StudentEnrol
     }
 
     public List<StudentEnrollment> findByStudentAndSemester(Long studentId, String semester) {
-        return em.createQuery("select e from " + classRef.getSimpleName() + " e where e.studentId=:sid and e.semester=:sem", classRef)
+        return em.createQuery("select e from com.jsum.model.StudentEnrollment e where e.studentId=:sid and e.semester=:sem", StudentEnrollment.class)
                 .setParameter("sid", studentId)
                 .setParameter("sem", semester)
                 .getResultList();
@@ -40,4 +47,5 @@ public class StudentEnrollmentRepositoryImpl extends BaseRepository<StudentEnrol
                 .setParameter("cid", courseId)
                 .getResultList();
     }
+
 }

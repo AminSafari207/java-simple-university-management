@@ -13,10 +13,15 @@ public class StudentRepositoryImpl extends BaseRepository<Student, Long> {
         super(em, Student.class);
     }
 
+    public Optional<Student> findByEmail(String email) {
+        return em.createQuery("select s from " + classRef.getSimpleName() + " s where s.email=:e", classRef)
+                .setParameter("e", email)
+                .getResultStream().findFirst();
+    }
+
     public List<Student> findByCourseId(Long courseId) {
         return em.createQuery("select s from Student s where s.id in (select e.studentId from com.jsum.model.StudentEnrollment e where e.courseId=:cid)", Student.class)
                 .setParameter("cid", courseId)
                 .getResultList();
     }
-
 }
