@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 @Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "dtype", discriminatorType = DiscriminatorType.STRING)
 public abstract class Person<T extends Person<T>> extends BaseEntity<Long> {
     private String name;
 

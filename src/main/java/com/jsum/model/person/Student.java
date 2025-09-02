@@ -12,6 +12,7 @@ import java.util.List;
 public class Student extends Person<Student> {
     private String major;
 
+    @Transient
     private List<Course> enrolledCourses = new ArrayList<>();
 
     @Transient

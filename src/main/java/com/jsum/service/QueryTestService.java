@@ -1,14 +1,12 @@
 package com.jsum.service;
 
 import com.jsum.enums.GradeType;
+import com.jsum.model.Course;
 import com.jsum.model.Grade;
 import com.jsum.model.ProfessorEnrollment;
 import com.jsum.model.person.Professor;
 import com.jsum.model.person.Student;
-import com.jsum.repository.impl.GradeRepositoryImpl;
-import com.jsum.repository.impl.ProfessorEnrollmentRepositoryImpl;
-import com.jsum.repository.impl.ProfessorRepositoryImpl;
-import com.jsum.repository.impl.StudentRepositoryImpl;
+import com.jsum.repository.impl.*;
 import com.jsum.service.base.TransactionalService;
 import jakarta.persistence.EntityManagerFactory;
 
@@ -21,10 +19,54 @@ public class QueryTestService extends TransactionalService {
         super(emf);
     }
 
+    public Long addStudent(String name, String email, String major) {
+        return executeTransaction(em -> {
+            StudentRepositoryImpl studentRepository = new StudentRepositoryImpl(em);
+
+            Student student = new Student()
+                    .name(name)
+                    .email(email)
+                    .major(major);
+
+            student = studentRepository.save(student);
+
+            return student.getId();
+        });
+    }
+
+    public Long addProfessor(String name, String email, Double salary) {
+        return executeTransaction(em -> {
+            ProfessorRepositoryImpl professorRepository = new ProfessorRepositoryImpl(em);
+
+            Professor professor = new Professor()
+                    .name(name)
+                    .email(email)
+                    .salary(salary);
+
+            professor = professorRepository.save(professor);
+
+            return professor.getId();
+        });
+    }
+
+    public Long addCourse(String name, int credits) {
+        return executeTransaction(em -> {
+            CourseRepositoryImpl courseRepository = new CourseRepositoryImpl(em);
+
+            Course course = new Course()
+                    .name(name)
+                    .credits(credits);
+
+            course = courseRepository.save(course);
+
+            return course.getId();
+        });
+    }
+
     public List<Student> getStudentsWithFails() {
-        return executeTransaction(entityManager -> {
-            StudentRepositoryImpl studentRepository = new StudentRepositoryImpl(entityManager);
-            GradeRepositoryImpl gradeRepository = new GradeRepositoryImpl(entityManager);
+        return executeTransaction(em -> {
+            StudentRepositoryImpl studentRepository = new StudentRepositoryImpl(em);
+            GradeRepositoryImpl gradeRepository = new GradeRepositoryImpl(em);
 
             Map<Long, List<Grade>> gradesByStudent = gradeRepository.findAll()
                     .stream()
@@ -42,9 +84,9 @@ public class QueryTestService extends TransactionalService {
     }
 
     public List<Professor> getProfessorsEnrollmentsMoreThan(int n) {
-        return executeTransaction(entityManager -> {
-            ProfessorRepositoryImpl professorRepository = new ProfessorRepositoryImpl(entityManager);
-            ProfessorEnrollmentRepositoryImpl professorEnrollmentRepository = new ProfessorEnrollmentRepositoryImpl(entityManager);
+        return executeTransaction(em -> {
+            ProfessorRepositoryImpl professorRepository = new ProfessorRepositoryImpl(em);
+            ProfessorEnrollmentRepositoryImpl professorEnrollmentRepository = new ProfessorEnrollmentRepositoryImpl(em);
 
             Map<Long, Long> counts = professorEnrollmentRepository.findAll()
                     .stream()
@@ -59,8 +101,8 @@ public class QueryTestService extends TransactionalService {
     public double averageGpaAllStudents() {
         GradeService gradeService = new GradeService(emf);
 
-        return executeTransaction(entityManager -> {
-            StudentRepositoryImpl studentRepository = new StudentRepositoryImpl(entityManager);
+        return executeTransaction(em -> {
+            StudentRepositoryImpl studentRepository = new StudentRepositoryImpl(em);
 
             List<Student> students = studentRepository.findAll();
 
