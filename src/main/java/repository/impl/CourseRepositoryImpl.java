@@ -17,4 +17,16 @@ public class CourseRepositoryImpl extends BaseRepository<Course, Long> {
                 .setParameter("ids", ids)
                 .getResultList();
     }
+
+    public List<Course> findByStudentId(Long studentId) {
+        return em.createQuery("select c from Course c where c.id in (select e.courseId from com.jsum.model.StudentEnrollment e where e.studentId=:sid)", Course.class)
+                .setParameter("sid", studentId)
+                .getResultList();
+    }
+
+    public List<Course> findByProfessorId(Long professorId) {
+        return em.createQuery("select c from Course c where c.id in (select t.courseId from com.jsum.model.ProfessorEnrollment t where t.professorId=:pid)", Course.class)
+                .setParameter("pid", professorId)
+                .getResultList();
+    }
 }
