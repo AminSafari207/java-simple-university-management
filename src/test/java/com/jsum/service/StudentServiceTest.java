@@ -36,14 +36,20 @@ public class StudentServiceTest {
 
         assertDoesNotThrow(() -> studentEnrollmentService.enroll(sid, cid, "Fall 2025"));
 
-        assertThrows(DuplicateEnrollmentException.class,
-                () -> studentEnrollmentService.enroll(sid, cid, "Fall 2025"));
+        assertThrows(
+                DuplicateEnrollmentException.class,
+                () -> studentEnrollmentService.enroll(sid, cid, "Fall 2025")
+        );
 
-        assertThrows(EntityNotFoundException.class,
-                () -> studentEnrollmentService.enroll(99999L, cid, "Fall 2025"));
+        assertThrows(
+                EntityNotFoundException.class,
+                () -> studentEnrollmentService.enroll(99999L, cid, "Fall 2025")
+        );
 
-        assertThrows(EntityNotFoundException.class,
-                () -> studentEnrollmentService.enroll(sid, 88888L, "Fall 2025"));
+        assertThrows(
+                EntityNotFoundException.class,
+                () -> studentEnrollmentService.enroll(sid, 88888L, "Fall 2025")
+        );
     }
 
     @Test
@@ -57,7 +63,7 @@ public class StudentServiceTest {
         Long c1 = queryTestService.addCourse("DB", 3);
         Long c2 = queryTestService.addCourse("OS", 4);
 
-        assertEquals(0.0, gradeService.calculateStudentGpa(sid), 0.0001);
+        assertEquals(0.0, gradeService.calculateStudentGpa(sid));
 
         studentEnrollmentService.enroll(sid, c1, "Fall 2025");
         studentEnrollmentService.enroll(sid, c2, "Fall 2025");
@@ -69,13 +75,17 @@ public class StudentServiceTest {
 
         double expected = ((20.0 / 20.0) * 4.0 * 3 + (10.0 / 20.0) * 4.0 * 4) / (3 + 4);
 
-        assertEquals(expected, gpa, 0.0001);
+        assertEquals(expected, gpa);
 
-        assertThrows(InvalidGradeException.class,
-                () -> gradeService.saveNumeric(sid, c1, "Fall 2025", -1.0));
+        assertThrows(
+                InvalidGradeException.class,
+                () -> gradeService.saveNumeric(sid, c1, "Fall 2025", -1.0)
+        );
 
-        assertThrows(InvalidGradeException.class,
-                () -> gradeService.saveNumeric(sid, c1, "Fall 2025", 21.0));
+        assertThrows(
+                InvalidGradeException.class,
+                () -> gradeService.saveNumeric(sid, c1, "Fall 2025", 21.0)
+        );
 
     }
 }
