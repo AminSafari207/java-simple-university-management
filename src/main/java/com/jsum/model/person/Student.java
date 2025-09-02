@@ -1,7 +1,7 @@
 package com.jsum.model.person;
 
 import com.jsum.model.base.Person;
-import com.jsum.model.course.Course;
+import com.jsum.model.Course;
 import jakarta.persistence.Entity;
 
 import java.util.ArrayList;
@@ -35,6 +35,6 @@ public class Student extends Person<Student> {
     public String toString() {
         return super.toString() +
                 "\nMajor: " + major +
-                "\nEnrolled Course: " + enrolledCourses.forEach(c -> System.out.print(c.getId() + ", "));
+                "\nEnrolled Course: " + enrolledCourses.stream().map(c -> (c.getCourseId() + ", ")).toList();
     }
 }
