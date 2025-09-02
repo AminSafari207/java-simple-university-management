@@ -1,5 +1,6 @@
 package com.jsum.model;
 
+import com.jsum.model.base.BaseEntity;
 import com.jsum.model.person.Professor;
 import jakarta.persistence.*;
 
@@ -7,9 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Course {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+public class Course extends BaseEntity<Long> {
+    @Column(name="course_id", unique=true)
     private Long courseId;
 
     private String name;
@@ -34,8 +34,8 @@ public class Course {
         return professors;
     }
 
-    public Course courseId(Long courseId) {
-        this.courseId = courseId;
+    public Course courseId(Long id) {
+        this.courseId = id;
         return this;
     }
 
@@ -57,7 +57,7 @@ public class Course {
     @Override
     public String toString() {
         return super.toString() +
-                "\nCourse ID: " + courseId +
+                "\nCourse ID: " + id +
                 "\nName: " + name +
                 "\nCredits: " + credits +
                 "\nProfessors: " + professors.stream().map(c -> (c.getName() + ", ")).toList();

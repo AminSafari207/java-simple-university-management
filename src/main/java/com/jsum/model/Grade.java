@@ -4,7 +4,7 @@ import com.jsum.model.enums.GradeType;
 import jakarta.persistence.*;
 
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"student_id","course_code","semester"}))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"student_id","course_id","semester"}))
 public class Grade {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
