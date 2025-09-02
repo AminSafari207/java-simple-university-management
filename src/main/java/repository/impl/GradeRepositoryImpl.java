@@ -13,8 +13,7 @@ public class GradeRepositoryImpl extends BaseRepository<Grade, Long> {
     }
 
     public Optional<Grade> findUnique(Long studentId, Long courseId, String semester) {
-        return em.createQuery("select g from " + classRef.getSimpleName() +
-                        " g where g.studentId=:sid and g.courseId=:cid and g.semester=:sem", classRef)
+        return em.createQuery("select g from Grade g where g.studentId=:sid and g.courseId=:cid and g.semester=:sem", classRef)
                 .setParameter("sid", studentId)
                 .setParameter("cid", courseId)
                 .setParameter("sem", semester)
@@ -29,7 +28,7 @@ public class GradeRepositoryImpl extends BaseRepository<Grade, Long> {
     }
 
     public List<Grade> findByStudentAndSemester(Long studentId, String semester) {
-        return em.createQuery("select g from " + classRef.getSimpleName() + " g where g.studentId=:sid and g.semester=:sem", classRef)
+        return em.createQuery("select g from Grade g where g.studentId=:sid and g.semester=:sem", classRef)
                 .setParameter("sid", studentId)
                 .setParameter("sem", semester)
                 .getResultList();
